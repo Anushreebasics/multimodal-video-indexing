@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+python-multipart
+ultralytics
+openai-whisper
+sentence-transformers
+chromadb
+easyocr
+opencv-python
+numpy
+torch
+torchaudio
+torchvision

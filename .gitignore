@@ -1,0 +1,93 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+.venv/
+venv/
+ENV/
+env/
+
+# PyTorch
+*.pth
+*.pt
+checkpoints/
+*.ckpt
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Project specific - Large files and generated data
+backend/uploads/
+backend/audio/
+backend/frames/
+backend/events/
+backend/face_database.json
+backend/chroma_db/
+
+# Research data
+research/data/
+research/checkpoints/
+research/*.pth
+research/*.pt
+
+# Model weights (too large for git)
+*.bin
+*.safetensors
+
+# Logs
+*.log
+logs/
+
+# Node.js / Frontend
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/build/
+frontend/.turbo/
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+
+# npm
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+.env.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
