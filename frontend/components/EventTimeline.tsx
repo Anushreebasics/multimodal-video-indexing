@@ -26,6 +26,7 @@ interface TimelineProps {
 export default function EventTimeline({ videoId, onSeek }: TimelineProps) {
     const [events, setEvents] = useState<Event[]>([]);
     const [summary, setSummary] = useState<Summary | null>(null);
+    const [aiStory, setAiStory] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const [selectedType, setSelectedType] = useState<string>('all');
 
@@ -44,19 +45,12 @@ export default function EventTimeline({ videoId, onSeek }: TimelineProps) {
             const response = await fetch(`http://localhost:8000/api/events/${videoId}`);
             console.log('Events response status:', response.status);
 
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const data = await response.json();
-            console.log('Events data:', data);
-
-            setEvents(data.events || []);
-            setSummary(data.summary || null);
         } catch (error) {
             console.error('Error loading events:', error);
+            // If 404 or other error, just show empty state instead of crashing
             setEvents([]);
             setSummary(null);
+            setAiStory(null);
         } finally {
             setLoading(false);
         }
@@ -106,10 +100,21 @@ export default function EventTimeline({ videoId, onSeek }: TimelineProps) {
 
     return (
         <div className="space-y-4">
+            {/* AI Story Card */}
+            {aiStory && (
+                <div className="bg-gradient-to-r from-indigo-50 to-purple-50 p-4 rounded-lg border border-indigo-200 shadow-sm">
+                    <div className="flex items-center gap-2 mb-2">
+                        <span className="text-xl">✨</span>
+                        <h4 className="font-bold text-indigo-900">AI Story</h4>
+                    </div>
+                    <p className="text-sm text-indigo-800 italic leading-relaxed">"{aiStory}"</p>
+                </div>
+            )}
+
             {/* Summary Card */}
             {summary && (
-                <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-4 rounded-lg border border-blue-200">
-                    <h4 className="font-semibold text-gray-900 mb-2">Video Summary</h4>
+                <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                    <h4 className="font-semibold text-gray-900 mb-2">Technical Summary</h4>
                     <p className="text-sm text-gray-700 mb-2">{summary.highlight_description}</p>
                     <div className="flex gap-4 text-xs text-gray-600">
                         <span>📊 {summary.event_count} events</span>

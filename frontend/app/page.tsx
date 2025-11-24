@@ -63,7 +63,8 @@ export default function Home() {
                 : `http://localhost:8000/api/search?query=${encodeURIComponent(searchQuery)}`;
             const response = await fetch(url);
             const data = await response.json();
-            setSearchResults(data.results);
+            // Show only the highest scored result (top 1)
+            setSearchResults(data.results.slice(0, 1));
         } catch (error) {
             console.error('Error searching:', error);
         }

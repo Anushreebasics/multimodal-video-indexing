@@ -147,6 +147,24 @@ def process_video_task(video_path: str, video_id: str):
         
         print(f"Detected {len(all_events)} events: {summary['highlight_description']}")
         
+        # 7. Generate AI Story (Generative Summarization)
+        ai_story = "AI Story generation skipped."
+        try:
+            print("Generating AI Story with LLM...")
+            from backend.services.llm_summarizer import LLMSummarizer
+            # Initialize here to save memory when not in use, or move to global if frequent
+            llm_summarizer = LLMSummarizer()
+            
+            ai_story = llm_summarizer.generate_summary(
+                transcript=features.get("transcript", []),
+                objects=features.get("objects", []),
+                events=all_events
+            )
+            print(f"AI Story generated: {ai_story[:50]}...")
+        except Exception as e:
+            print(f"Warning: AI Story generation failed: {e}")
+            ai_story = "AI Story generation failed."
+
         # Store events in a JSON file for this video
         import json
         events_dir = "backend/events"
@@ -158,7 +176,8 @@ def process_video_task(video_path: str, video_id: str):
                 "video_id": video_id,
                 "duration": video_duration,
                 "events": all_events,
-                "summary": summary
+                "summary": summary,
+                "ai_story": ai_story
             }, f, indent=2)
         
         print(f"Events saved to {events_file}")
@@ -300,5 +319,6 @@ async def get_summary(video_id: str):
     return {
         "video_id": video_id,
         "summary": data.get("summary", {}),
-        "top_moments": data.get("summary", {}).get("top_moments", [])
+        "top_moments": data.get("summary", {}).get("top_moments", []),
+        "ai_story": data.get("ai_story", "No AI story available.")
     }
