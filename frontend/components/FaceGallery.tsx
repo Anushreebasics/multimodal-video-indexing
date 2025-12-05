@@ -73,17 +73,17 @@ export default function FaceGallery({ videoId }: FaceGalleryProps) {
     }
 
     return (
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-            <h2 className="text-xl font-semibold mb-4">Detected Faces</h2>
-            <p className="text-sm text-gray-600 mb-4">
+        <div className="glass p-6 rounded-xl border border-white/10">
+            <h2 className="text-xl font-semibold mb-4 text-white">Detected Faces</h2>
+            <p className="text-sm text-gray-400 mb-4">
                 Faces are automatically grouped by person. Click to tag them with names.
             </p>
 
             <div className="space-y-6">
                 {clusterEntries.map(([clusterId, faces]) => (
-                    <div key={clusterId} className="border border-gray-200 rounded-lg p-4">
+                    <div key={clusterId} className="border border-white/10 rounded-lg p-4 bg-white/5">
                         <div className="flex justify-between items-center mb-3">
-                            <h3 className="font-semibold text-gray-700">
+                            <h3 className="font-semibold text-gray-200">
                                 {faces[0].person_name || `Person ${parseInt(clusterId) + 1}`}
                             </h3>
                             <span className="text-sm text-gray-500">{faces.length} appearances</span>
@@ -91,7 +91,7 @@ export default function FaceGallery({ videoId }: FaceGalleryProps) {
 
                         <div className="flex gap-2 flex-wrap mb-3">
                             {faces.slice(0, 5).map((face) => (
-                                <div key={face.face_id} className="text-xs bg-blue-50 px-2 py-1 rounded">
+                                <div key={face.face_id} className="text-xs bg-blue-500/20 text-blue-300 px-2 py-1 rounded">
                                     {new Date(face.timestamp * 1000).toISOString().substr(11, 8)}
                                 </div>
                             ))}
@@ -111,7 +111,7 @@ export default function FaceGallery({ videoId }: FaceGalleryProps) {
                                             value={personName}
                                             onChange={(e) => setPersonName(e.target.value)}
                                             placeholder="Enter person name"
-                                            className="flex-1 px-3 py-1 border border-gray-300 rounded text-sm"
+                                            className="flex-1 px-3 py-1 bg-black/30 border border-white/20 rounded text-sm text-white placeholder-gray-500 outline-none focus:border-blue-500"
                                             onKeyDown={(e) => e.key === 'Enter' && handleTagFace(faces[0].face_id)}
                                         />
                                         <button
@@ -122,7 +122,7 @@ export default function FaceGallery({ videoId }: FaceGalleryProps) {
                                         </button>
                                         <button
                                             onClick={() => { setTagging(null); setPersonName(''); }}
-                                            className="px-3 py-1 bg-gray-300 text-gray-700 rounded text-sm hover:bg-gray-400"
+                                            className="px-3 py-1 bg-gray-700 text-gray-300 rounded text-sm hover:bg-gray-600"
                                         >
                                             Cancel
                                         </button>
